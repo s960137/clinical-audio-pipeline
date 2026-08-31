@@ -1,22 +1,22 @@
 # Clinical Audio Pipeline
 
-### 臨床音訊資料整合：自動下載 × 一對一配對 × 去重稽核
+### 臨床音訊資料整合：自動下載 × 一對一配對 × 至Excel稽核
 
 [![Synthetic pipeline checks](https://github.com/s960137/clinical-audio-pipeline/actions/workflows/checks.yml/badge.svg)](https://github.com/s960137/clinical-audio-pipeline/actions/workflows/checks.yml)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Demo data: synthetic](https://img.shields.io/badge/Demo%20data-100%25%20synthetic-0F766E)
 
-**把分散在 APP 後台與 Excel 的錄音紀錄，整理成可追蹤的「錄音－資料列」配對清單。**
+**把分散在 APP (或蒐集工具)後台與 Excel 的錄音紀錄，整理成可追蹤的「錄音－資料列」配對清單。**
 
-這個作品源自氣喘聲音研究的資料準備工作：聲音保存在 APP 的後台，研究所需資訊分散在醫院匯出的表格。下載只是第一步；更重要的是避免重複下載、錯配錄音，以及把同一段聲音當成多筆獨立樣本。
+此作品源自氣喘聲音研究的資料準備工作：聲音保存在 APP 的後台，研究所需資訊(姓名與生理資料)會分散在醫院紀錄之表格。下載只是第一步；更重要的是避免重複下載、錯配錄音，以及把同一段聲音當成多筆獨立樣本。
 
-本倉庫是原工作流程的**獨立公開改寫版**，以合成資料展示核心工程方法，不包含真實病患音檔、Excel、醫院網址、登入狀態或研究倉庫歷史。公開版與原始研究程式的差異見 [改寫範圍](docs/provenance.md)。
+本專案是源自workflow的**獨立公開改寫版**，以合成資料demo核心抓蟲方法，不包含真實病患音檔、Excel、醫院網址、登入狀態或研究歷史。公開版與原始研究程式的差異見 [改寫範圍](docs/provenance.md)。
 
 > Audio acquisition, one-to-one spreadsheet matching and auditable dataset preparation, adapted from a clinical research workflow. The demo uses fictional records and generated tones only. No medical diagnosis, clinical labels or model performance claims are provided.
 
 ## 流程圖
 
-![公開版音訊資料整合流程圖：兩個資料來源經驗證、一對一配對、下載檢查及內容去重，產出可追蹤的配對清單](docs/workflow.svg)
+![公開版音訊資料整合流程圖：兩個資料來源經驗證、一對一配對、下載檢查及內容去重複，產出可追蹤的配對清單](docs/workflow.svg)
 
 圖中的實線是公開版可執行的流程。下游的臨床標籤、聲音前處理、頻譜影像與模型訓練屬於原研究情境，不在這個示範工具內執行。
 
@@ -96,7 +96,7 @@ python -m clinical_audio_pipeline demo --out demo-output
 ```text
 demo-output/
 ├── synthetic-inputs/
-│   ├── visits.xlsx         # 生成的虛構 Excel
+│   ├── visits.xlsx         # 生成的假 Excel
 │   ├── recordings.csv      # 只指向本機暫時伺服器
 │   └── R001.wav ...        # 人工產生的測試訊號
 └── results/
@@ -126,7 +126,7 @@ demo-output/
 python -m clinical_audio_pipeline run --visits private/visits.xlsx --recordings private/recordings.csv --out outputs/run-001 --allow-host audio.example.invalid --tolerance-seconds 900
 ```
 
-`example.invalid` 是不可用的示意網域，請換成你有權存取的實際來源。外部來源必須使用 HTTPS；HTTP 僅允許 loopback 示範。下載不跟隨重新導向，請提供直接音訊 URL。
+`example.invalid` 是不可用的示意網域，需要換成你有權限管理存取的實際來源。外部來源必須使用 HTTPS；HTTP 僅允許 loopback 示範。下載不跟隨重新導向，請提供直接音訊 URL。
 
 若來源支援 Bearer token，可從環境變數讀取，並透過 `--token-origin` 指定**唯一允許收到 token 的 HTTPS origin**：
 
@@ -134,7 +134,7 @@ python -m clinical_audio_pipeline run --visits private/visits.xlsx --recordings 
 python -m clinical_audio_pipeline run --visits private/visits.xlsx --recordings private/recordings.csv --out outputs/run-002 --allow-host api.example.invalid --allow-host cdn.example.invalid --token-env AUDIO_API_TOKEN --token-origin https://api.example.invalid
 ```
 
-環境變數需事先在本機設定。Token 不寫入檔案、不放入命令列值，也不會轉送給其他允許下載的網域或不同 port。連線不繼承系統 proxy 或 `.netrc`；需要企業 proxy 的環境必須另外審查配置。
+環境變數需事先本機設定。Token 不寫入檔案、不放入命令列值，也不會轉送給其他允許下載的網域或不同 port。連線不繼承系統 proxy 或 `.netrc`；需要企業 proxy 的環境必須另外審查配置。
 
 ### 選用：瀏覽器擷取 manifest
 
@@ -143,7 +143,7 @@ python -m pip install -e ".[browser]"
 python -m clinical_audio_pipeline collect --config examples/browser_config.json --out private/recordings.csv --browser edge
 ```
 
-這是**需依網站調整的 adapter**，不是對任意 APP 都能直接使用的爬蟲。先在本機的私有設定檔填入授權網址與 CSS selectors，再執行 `collect`；在開啟的瀏覽器自行登入，回到終端機按 Enter。範例 HTML 見 [mock-recordings.html](examples/mock-recordings.html)。
+這是**需依網站調整的 adapter**，不是對任意 APP 都能直接用的爬蟲。先在本機的私有設定檔填入授權網址與 CSS selectors，再執行 `collect`；在開啟的瀏覽器自行登入，回到終端機按 Enter。範例 HTML 見 [mock-recordings.html](examples/mock-recordings.html)。
 
 公開版本不包含醫院 DOM、Cookie 匯出、已登入瀏覽器設定檔或繞過存取控制的功能。擷取與下載分開：瀏覽器登入 session 不會自動傳給 HTTP downloader；只支援 Cookie 的後台需另外實作並審查授權 adapter。瀏覽器相容性與真實網站分頁仍需由使用者在有權限的環境驗證；目前自動測試涵蓋核心資料流程，不涵蓋真實網站。
 
