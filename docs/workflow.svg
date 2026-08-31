@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="880" viewBox="0 0 1120 880" role="img" aria-labelledby="title description">
+  <title id="title">Clinical Audio Pipeline — 公開版資料整合流程</title>
+  <desc id="description">經授權的後台來源與不含直接識別資訊的 Excel，經 schema 驗證、Hungarian 一對一配對、下載驗證及 SHA-256 去重，產生可追蹤的配對清單。臨床標籤與模型為外部研究流程。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#52677c" stroke-width="1.5"/></marker>
+    <style>
+      text {font-family: 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;}
+      .title {font-size:32px;font-weight:700;fill:#fff;}
+      .subtitle {font-size:17px;fill:#c8d6e5;}
+      .label {font-size:13px;font-weight:700;letter-spacing:1.4px;fill:#537084;}
+      .heading {font-size:21px;font-weight:700;fill:#153047;}
+      .body {font-size:16px;fill:#486073;}
+      .small {font-size:14px;fill:#537084;}
+      .line {fill:none;stroke:#52677c;stroke-width:2;marker-end:url(#arrow);}
+    </style>
+  </defs>
+  <rect width="1120" height="880" rx="20" fill="#f3f7fa"/>
+  <path d="M20 0H1100Q1120 0 1120 20V130H0V20Q0 0 20 0Z" fill="#122c42"/>
+  <text x="44" y="54" class="title">Clinical Audio Pipeline</text>
+  <text x="44" y="89" class="subtitle">從 APP 錄音與 Excel，建立可追蹤的音訊資料配對</text>
+  <rect x="836" y="40" width="240" height="42" rx="21" fill="#1e5762"/>
+  <text x="956" y="67" text-anchor="middle" font-size="15" fill="#ddfff5">公開示範 · 全部使用合成資料</text>
+
+  <text x="44" y="166" class="label">01 / SOURCES</text>
+  <rect x="44" y="184" width="494" height="126" rx="12" fill="#fff" stroke="#cddce6"/>
+  <text x="68" y="220" class="heading">經授權的 APP 後台 / 合成來源</text>
+  <text x="68" y="250" class="body">選用：瀏覽器登入與分頁擷取</text>
+  <text x="68" y="278" class="body">輸出錄音代碼、時間與下載來源 manifest</text>
+  <rect x="582" y="184" width="494" height="126" rx="12" fill="#fff" stroke="#cddce6"/>
+  <text x="606" y="220" class="heading">Excel / CSV 資料列</text>
+  <text x="606" y="250" class="body">使用不含姓名、身分證的受試者代碼</text>
+  <text x="606" y="278" class="body">驗證欄位與主鍵；要求明確的錄音時間</text>
+  <path d="M291 310V336H560V356" class="line"/>
+  <path d="M829 310V336H560" fill="none" stroke="#52677c" stroke-width="2"/>
+
+  <rect x="204" y="362" width="712" height="116" rx="12" fill="#e8f3f4" stroke="#278492" stroke-width="1.5"/>
+  <text x="230" y="391" class="label">02 / MATCH</text>
+  <text x="230" y="422" class="heading">同一受試者、同日：Hungarian 一對一配對</text>
+  <text x="230" y="452" class="body">最大化容差內配對數 → 最小化時間差 → 等價答案交由人工確認</text>
+  <path d="M560 478V506H204V518" class="line"/>
+
+  <rect x="44" y="526" width="320" height="140" rx="12" fill="#fff" stroke="#cddce6"/>
+  <text x="66" y="555" class="label">03 / DOWNLOAD</text>
+  <text x="66" y="586" class="heading">下載與檔案檢查</text>
+  <text x="66" y="616" class="body">允許來源 · 有限重試 · 檔頭</text>
+  <text x="66" y="643" class="body">大小上限 · WAV 結構驗證</text>
+  <rect x="400" y="526" width="320" height="140" rx="12" fill="#fff" stroke="#cddce6"/>
+  <text x="422" y="555" class="label">04 / AUDIT</text>
+  <text x="422" y="586" class="heading">SHA-256 內容去重</text>
+  <text x="422" y="616" class="body">保留原始下載 · 標記重複</text>
+  <text x="422" y="643" class="body">跨受試者相同內容需人工確認</text>
+  <rect x="756" y="526" width="320" height="140" rx="12" fill="#fff8e9" stroke="#dbbd7c"/>
+  <text x="778" y="555" class="label">REVIEW QUEUE</text>
+  <text x="778" y="586" class="heading">異常可追蹤，不猜答案</text>
+  <text x="778" y="616" class="body">模糊配對 · 缺少時間 · 超出容差</text>
+  <text x="778" y="643" class="body">下載失敗 · 內容來源衝突</text>
+  <path d="M364 596H392" class="line"/>
+  <path d="M916 478V518" class="line"/>
+  <path d="M560 666V704" class="line"/>
+  <path d="M916 666V686H810V704" class="line"/>
+
+  <rect x="204" y="712" width="872" height="84" rx="12" fill="#0e665e"/>
+  <text x="230" y="746" font-size="22" font-weight="700" fill="#fff">manifest.csv + summary.json</text>
+  <text x="230" y="775" font-size="16" fill="#daf5eb">唯一音訊配對 · 狀態與排除原因 · 檔案 SHA-256 · 輸入版本追蹤</text>
+  <text x="44" y="831" class="small">外部研究流程：臨床標籤 → 聲音前處理 → 頻譜影像 → 模型訓練（本公開工具不執行）</text>
+  <text x="44" y="856" class="small">通過資料配對與位元組檢查 ≠ 臨床有效性、標籤正確性或診斷能力</text>
+</svg>

@@ -1,0 +1,11 @@
+{
+  "records_url": "https://example.invalid/recordings",
+  "allowed_hosts": ["example.invalid"],
+  "row_selector": "tr.recording",
+  "recording_id_attribute": "data-recording-id",
+  "subject_id_attribute": "data-subject-id",
+  "timestamp_attribute": "data-recorded-at",
+  "audio_selector": "a.audio",
+  "next_selector": "button.next",
+  "max_pages": 100
+}
