@@ -170,4 +170,9 @@ python tools/audit_public_tree.py
 
 作者：[s960137](https://github.com/s960137)。此專案展示研究資料工程與自動化方法，不能用於醫療診斷或治療決策。
 
+--Author
+徐良慶 (Jasper Hsu)
+
+中原大學 生物醫學工程所 (Dept. of Biomedical Engineering, CYCU) | T&T 803 Lab
+
 目前提供原始碼公開展示，**尚未附加開源授權條款**；公開可見不等於授予任意重用或再散布權利。原研究資料、合作機構資源與第三方服務也不在此專案的授權範圍內。
